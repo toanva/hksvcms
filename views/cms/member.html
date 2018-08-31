@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/roboto.css">
+    <link rel="stylesheet" type="text/css" href="../css/material-design.css">
+    <link rel="stylesheet" type="text/css" href="../css/small-n-flat.css">
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/buttons.bootstrap.min.css" />
+    <title>NSVN-QLTV</title>
+</head>
+<body class="cm-no-transition cm-1-navbar">
+    <div id="cm-menu">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="cm-flex">
+                <div class="cm-logo"></div>
+            </div>
+            <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
+        </nav>
+        <div id="cm-menu-content">
+            <div id="cm-menu-items-wrapper">
+                <div id="cm-menu-scroller">
+                    <ul class="cm-menu-items">
+                        <!--<li><a href="index.html" class="sf-dashboard">Điều khiển</a></li>
+                        <li><a href="ai.html" class="sf-cogs">Cấu hình AI</a></li>-->
+                        <li class="active"><a href="/cms/member" class="sf-profile-group">Thí sinh</a></li>
+                        <!--<li><a href="mess.html" class="sf-box-out">Gửi tin</a></li>
+                        <li><a href="product.html" class="sf-shop">Sản phẩm</a></li>
+                        <li><a href="map.html" class="sf-map">Bản đồ</a></li>
+                        <li><a href="analyze.html" class="sf-monitor">Phân tích</a></li>
+                        <li><a href="user.html" class="sf-profile-group">Tài khoản</a></li>-->
+                        <li><a href="#" class="sf-lock" onclick="Logout()">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header id="cm-header">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
+            <div class="cm-flex">
+                <h1>Quản lý thí sinh</h1>
+            </div>
+        </nav>
+    </header>
+    <div id="global">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tìm kiếm thí sinh</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Họ và tên..." />
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="txtPhone" name="txtPhone" placeholder="Điện thoại..." />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select id="cboStatus" name="cboStatus" class="form-control">
+                                            <option value="0">Chọn Trạng thái</option>
+                                            <option value="ACTIVE">Đã duyệt</option>
+                                            <option value="PENDING">Chưa duyệt</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-3">
+                                    <div class="form-group text-align-bottom">
+                                        <button type="button" class="btn btn-primary" onclick="SearchMember()">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Danh sách thí sinh</div>
+                        <div class="panel-body">
+                            <table id="grvResult" class="table table-striped table-bordered" style="width: 100%" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]">
+                                <thead>
+                                    <tr>
+                                        <th>Họ và tên</th>
+                                        <th>Số báo danh</th>
+                                        <th>Ảnh chân dung</th>
+                                        <th>Ảnh toàn thân</th>
+                                        <th>Ngày đăng ký</th>
+                                        <!--<th>Quốc tịch</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Nơi sinh</th>
+                                        <th>Số CMND</th>
+                                        <th>Ngày cấp</th>
+                                        <th>Nơi cấp</th>
+                                        <th>Địa chỉ thường trú</th>
+                                        <th>Địa chỉ liên lạc</th>
+                                        <th>SĐT cố định</th>
+                                        <th>SĐT di động</th>
+                                        <th>Email</th>
+                                        <th>Facebook</th>
+                                        <th>Nơi học tập</th>
+                                        <th>Khi cần báo tin cho ai? Ở đâu?</th>-->
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:50%">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <div class="row">
+                            <ul id="myTab" class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Thông tin cá nhân</a></li>
+                                <li role="presentation" class=""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Hội viên chờ duyệt</a></li>
+                            </ul>
+                            <br>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+                                    <table id="grvInfo" class="table table-bordered" style="width: 100%;font-size:12px!important" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-sm-3" style="text-align:center;vertical-align:middle" rowspan="8">
+                                                    <img id="info_img" src="../img/logo.jpg" class="img-responsive" />
+                                                    <input type="hidden" id="id_info" value="0">
+                                                </td>
+                                                <td class="col-sm-9">
+                                                    <label class="col-sm-3 text-right margin0">Họ và tên:</label><label class="margin0" id="info_name"></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Cấp cán bộ:</label><label class="margin0" id="info_level"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Chức vụ:</label><label class="margin0" id="info_position"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Ngày sinh:</label><label class="margin0" id="info_birthday"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Điện thoại:</label><label class="margin0" id="info_phone"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Email:</label><label class="margin0" id="info_email"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Địa chỉ:</label><label class="margin0" id="info_address"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Trạng thái:</label><label class="margin0" id="info_status"></label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                                    <div class="table-responsive">
+                                        <table id="grvInfoPending" class="table table-bordered" style="width: 100%;font-size:12px!important" data-page-length="10">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Ảnh</th>
+                                                    <th style="width: 75%;">Thông tin</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <footer class="cm-footer"><span class="pull-right">&copy; NSVN KYC.NET.VN Inc.</span></footer>
+    </div>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/dataTables.bootstrap.min.js"></script>
+    <script src="../js/dataTables.buttons.min.js"></script>
+    <script src="../js/buttons.bootstrap.min.js"></script>
+    <script src="../js/jszip.min.js"></script>
+    <script src="../js/pdfmake.min.js"></script>
+    <script src="../js/vfs_fonts.js"></script>
+    <script src="../js/buttons.html5.min.js"></script>
+    <script src="../js/buttons.print.min.js"></script>
+    <script src="../js/buttons.colVis.min.js"></script>
+    <script src="../js/jquery.mousewheel.min.js"></script>
+    <script src="../js/jquery.cookie.min.js"></script>
+    <script src="../js/fastclick.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/clearmin.min.js"></script>
+    <script src="../js/toanva.js"></script>
+    <script src="../cms-js/member.js"></script>
+    <script src="../cms-js/logout.js?v=1.0.0.0"></script>
+</body>
+</html>

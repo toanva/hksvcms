@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/roboto.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/material-design.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/small-n-flat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../be/assets/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../be/assets/css/buttons.bootstrap.min.css" />
+    <title>NSVN-QLTV</title>
+</head>
+<body class="cm-no-transition cm-1-navbar">
+    <div id="cm-menu">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="cm-flex">
+                <div class="cm-logo"></div>
+            </div>
+            <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
+        </nav>
+        <div id="cm-menu-content">
+            <div id="cm-menu-items-wrapper">
+                <div id="cm-menu-scroller">
+                    <ul class="cm-menu-items">
+                        <li><a href="index.html" class="sf-dashboard">Điều khiển</a></li>
+                        <li><a href="ai.html" class="sf-cogs">Cấu hình AI</a></li>
+                        <li><a href="membernew.html" class="sf-profile-group">Thành viên</a></li>
+                        <li><a href="mess.html" class="sf-box-out">Gửi tin</a></li>
+                        <li><a href="productnew.html" class="sf-shop">Sản phẩm</a></li>
+                        <li><a href="map.html" class="sf-map">Bản đồ</a></li>
+                        <li><a href="analyze.html" class="sf-monitor">Phân tích</a></li>
+                        <li class="active"><a href="user.html" class="sf-profile-group">Tài khoản</a></li>
+						<li><a href="#" class="sf-lock" onclick="Logout()">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header id="cm-header">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
+            <div class="cm-flex">
+                <h1>Quản lý tài khoản</h1>
+            </div>
+        </nav>
+    </header>
+    <div id="global">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tìm kiếm tài khoản</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!--<label for="txtphone">Tài khoản:</label>-->
+                                        <input type="text" class="form-control" id="txtUserNameSearch" name="txtUserNameSearch" placeholder="Tài khoản..." onkeypress="return KeySearch(event)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!--<label for="txtname">Họ và tên:</label>-->
+                                        <input type="text" class="form-control" id="txtFullNameSearch" name="txtFullNameSearch" placeholder="Họ và tên..." onkeypress="return KeySearch(event)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!--<label for="txtlevel">Trạng thái:</label>-->
+                                        <select id="cboStatus" name="cboStatus" class="form-control" onchange="Search()">
+                                            <option value="">Chọn Trạng thái</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group text-align-bottom">
+                                        <button type="button" class="btn btn-default" onclick="Search()"><img src="assets/img/sf/search.svg" height="20" width="20">Tìm kiếm</button>
+                                        <button type="button" class="btn btn-primary" onclick="Add()">Thêm mới</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>
+            <div class="row cm-fix-height">-->
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Danh sách</div>
+                        <div class="panel-body">
+                            <table id="grvResult" class="table table-striped table-bordered" style="width: 100%" data-page-length="10" data-order="[[ 0, &quot;asc&quot; ]]">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-2">Tài khoản</th>
+                                        <th>Họ và tên</th>
+                                        <th class="col-md-2">Trạng thái</th>
+                                        <th class="col-md-2">Thao tác</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Thêm mới tài khoản
+                            <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="txtUserName" class="col-sm-3 control-label">Tài khoản</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtUserName" placeholder="Tài khoản">
+                                </div>
+                            </div>
+                            <div class="form-group" id="divFullName">
+                                <label for="txtFullName" class="col-sm-3 control-label">Họ và tên</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtFullName" placeholder="Họ và tên">
+                                </div>
+                            </div>
+                            <div class="form-group" id="divPassword">
+                                <label for="txtPassword" class="col-sm-3 control-label">Mật khẩu</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="txtPassword" placeholder="Mật khẩu">
+                                </div>
+                            </div>
+                            <div class="form-group" id="divStatus">
+                                <label for="cbStatus" class="col-sm-3 control-label">Trạng thái</label>
+                                <div class="col-sm-4">
+                                    <select id="cbStatus" class="form-control">
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy bỏ</button>
+                        <button id="btnInsertUser" type="button" class="btn btn-primary" onclick="SaveUser(0)">Lưu lại</button>
+                        <button id="btnEditUser" type="button" class="btn btn-primary" onclick="SaveUser(1)">Lưu lại</button>
+                        <button id="btnResetUser" type="button" class="btn btn-primary" onclick="SaveUser(2)">Lưu lại</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="deleteModalLabel">
+                            Xóa tài khoản
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <label id="lblUserNameDelete" class="control-label">Bạn có chắc chắn muốn xóa tài khoản này không</label>
+                        <input type="text" class="hidden-lg" id="txtUserNameDelete">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+                        <button id="btnDeleteUser" type="button" class="btn btn-primary" onclick="Delete()">  Có </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <footer class="cm-footer"><span class="pull-right">&copy; NSVN KYC.NET.VN Inc.</span></footer>
+    </div>
+    <!--<script src="../js/jquery-3.3.1.min.js"></script>-->
+    <script src="assets/js/lib/jquery-2.1.3.min.js"></script>
+    <script src="../be/assets/js/jquery.dataTables.min.js"></script>
+    <script src="../be/assets/js/dataTables.bootstrap.min.js"></script>
+    <script src="../be/assets/js/dataTables.buttons.min.js"></script>
+    <script src="../be/assets/js/buttons.bootstrap.min.js"></script>
+    <script src="../be/assets/js/jszip.min.js"></script>
+    <script src="../be/assets/js/pdfmake.min.js"></script>
+    <script src="../be/assets/js/vfs_fonts.js"></script>
+    <script src="../be/assets/js/buttons.html5.min.js"></script>
+    <script src="../be/assets/js/buttons.print.min.js"></script>
+    <script src="../be/assets/js/buttons.colVis.min.js"></script>
+    <script src="assets/js/jquery.mousewheel.min.js"></script>
+    <script src="assets/js/jquery.cookie.min.js"></script>
+    <script src="assets/js/fastclick.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.blockui.min.js"></script>
+    <script src="assets/js/clearmin.min.js"></script>
+    <script src="assets/js/toanva.js"></script>
+    <script src="../js/user.js"></script>
+	<script src="../js/logout.js?v=1.0.0.0"></script>
+</body>
+</html>
