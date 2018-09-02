@@ -21,6 +21,12 @@ router.get('/member', function (req, res, next) {
     });
 });
 
+router.get('/chart', function (req, res, next) {
+    res.sendFile('chart.html', {
+        root: "views/cms"
+    });
+});
+
 //Toanva add getkeyCMS
 router.post('/getkeyCMS', function (req, res) {
     let body = req.body;
@@ -249,5 +255,38 @@ router.post('/loginCMS', function (req, res) {
             });
         });
     }
+});
+
+router.get('/getMemberByGroup', (req, res) => {
+    var code = req.query.code;
+    var options = {};
+    var pipeline = [];
+    if (code == "day") {
+        pipeline = [{
+            "$group": {
+                _id: {
+                    date: { $dateToString: { format: "%Y-%m-%d", date: "$InsertDate" } }
+                },
+                count: { $sum: 1 }
+            }
+        }, {
+            "$sort": {
+                "_id.date": 1
+            }
+        }, {
+            "$project": {
+                "_id": 0,
+                "Date": "$_id.date",
+                "Total": "$count"
+            }
+        }];
+    }
+    console.log("getMemberByGroup", code);
+    objDb.getConnection(function (client) {
+        objDb.findMembersByGroup(pipeline, options, client, function (results) {
+            client.close();
+            res.send(results);
+        });
+    });
 });
 module.exports = router;
