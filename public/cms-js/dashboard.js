@@ -27,7 +27,7 @@ function getData(){
                     if (err.responseText == 'Unauthorized') {
                         {
                             alert("Bạn đã bị time out");
-                            window.location.href = 'login.html';
+                            window.location.href = '/cms';
                         }
                     }
 			}            
