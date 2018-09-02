@@ -258,6 +258,9 @@ router.post('/loginCMS', function (req, res) {
 });
 
 router.get('/getMemberByGroup', (req, res) => {
+    if (req.session == null || req.session.admin == null) {
+        return res.sendStatus(401);
+    }
     var code = req.query.code;
     var options = {};
     var pipeline = [];
