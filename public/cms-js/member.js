@@ -61,6 +61,8 @@ var datatable = $('#grvResult').DataTable({
                 return data !== undefined ? '<img class="img-responsive center-block img-rounded" alt="Responsive image" src="' + data + '" height="200"  width="200">' : '';
             }
         },
+        { data: 'Phone', defaultContent: "" },
+        { data: 'Schools', defaultContent: "" },
         //{
         //    data: 'Name', render: function (data, type, row, meta) {
         //        return '<a href="#" onclick="ShowDetail(' + row._id + ')">' + data + '</a>';
