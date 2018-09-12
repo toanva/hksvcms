@@ -65,6 +65,8 @@ var datatable = $('#grvResult').DataTable({
         { data: 'Schools', defaultContent: "" },
         //{ data: 'Schools', defaultContent: "" },
         { data: 'PlaceOfContest', defaultContent: "" },
+        { data: 'Url1', defaultContent: "" },
+        { data: 'Url2', defaultContent: "" },
         //{
         //    data: 'Name', render: function (data, type, row, meta) {
         //        return '<a href="#" onclick="ShowDetail(' + row._id + ')">' + data + '</a>';
