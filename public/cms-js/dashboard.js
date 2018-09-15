@@ -43,9 +43,12 @@ function drawBlockStatus(objBlockStatus) {
     var dataProduct = new google.visualization.DataTable();
     dataProduct.addColumn('string', 'Ngày');
     dataProduct.addColumn('number', 'Số lượng');
+    dataProduct.addColumn('number', 'Tổng');
     var len = objBlockStatus.length;
+    var total_current = 0;
     for (var i = 0; i < len; ++i) {
-        dataProduct.addRow([objBlockStatus[i].Date, objBlockStatus[i].Total]);
+        total_current = total_current + objBlockStatus[i].Total;
+        dataProduct.addRow([objBlockStatus[i].Date, objBlockStatus[i].Total, total_current]);
     }
     var options = {
         chart: {
