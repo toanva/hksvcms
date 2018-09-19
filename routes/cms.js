@@ -121,6 +121,9 @@ router.get('/getMemberCMS', (req, res) => {
             Position: position
         });
     }
+    Object.assign(query, {
+            Type: "Candidates"
+        });
     console.log("GetMemberCMS query", query);
     objDb.getConnection(function (client) {
         objDb.findMembers(query, client, function (results) {
