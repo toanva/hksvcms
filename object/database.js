@@ -45,7 +45,7 @@ module.exports = {
         collection = db.collection('Members');
         // Find some documents
         collection.find(query).sort({
-            "_id": 1
+            "InsertDate": 1
         }).toArray(function (err, results) {
             //    assert.equal(err, null);
             if (err) {
