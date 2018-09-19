@@ -56,6 +56,10 @@ var datatable = $('#grvResult').DataTable({
         {
             targets: [8],
             visible: false
+        },
+        {
+            targets: [9],
+            visible: false
         }
     ],
     columns: [
@@ -77,6 +81,12 @@ var datatable = $('#grvResult').DataTable({
         { data: 'PlaceOfContest', defaultContent: "" },
         { data: 'Url1', defaultContent: "" },
         { data: 'Url2', defaultContent: "" },
+        {
+            data: 'InsertDate', render: function (data, type, row, meta) {
+                return formatDateDetail1(data);
+            }
+        }
+       
         //{
         //    data: 'Name', render: function (data, type, row, meta) {
         //        return '<a href="#" onclick="ShowDetail(' + row._id + ')">' + data + '</a>';
