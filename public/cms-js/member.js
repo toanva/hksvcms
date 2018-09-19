@@ -85,7 +85,7 @@ var datatable = $('#grvResult').DataTable({
             data: 'InsertDate', render: function (data, type, row, meta) {
                 return formatDateDetail1(data);
             }
-        }
+        },
        
         //{
         //    data: 'Name', render: function (data, type, row, meta) {
