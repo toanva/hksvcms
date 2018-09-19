@@ -167,11 +167,35 @@ function formatDateDetail(date) {
     }
 }
 
+function formatDateDetail1(date) {
+    try {
+        if (date == null || date.length == 0) return '';
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear(),
+            hour = '' + d.getHours(),
+            minutes = '' + d.getMinutes(),
+            seconds = '' + d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) hour = '0' + hour;
+        if (minutes.length < 2) minutes = '0' + minutes;
+        if (seconds.length < 2) seconds = '0' + seconds;
+
+        return [[year, month, day].join('/'), [hour, minutes, seconds].join(':')].join(' ');
+    } catch (e) {
+        return '';
+    }
+}
+
 function GetBirthDay(data) {
     var date = new Date(data);
     var birthday = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     return birthday;
 }
+
 
 function GetImage(data_url) {
     var img = '<img style="max-width: 80px;min-width: 70px;"  src="' + data_url + '">'
