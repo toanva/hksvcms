@@ -168,7 +168,7 @@ function drawTable(objMembers) {
 
     for (var i = 0; i < objMembers.length; i++) {
         obj = objMembers[i];
-        if (obj.BlockStatus == 'PENDING') {
+        if (obj.BlockStatus == 'PENDING' && obj.Type == 'Candidates') {
             var img = '<img id="img_infodetail" src="' + obj.ImgUrl + '" alt="Ảnh đại diện" class="img-responsive">';
             var strRow = '';
             strRow = strRow + '<div class="col-sm-12"><label class="col-sm-4 text-right margin0">Họ và Tên:</label><label class="margin0 col-sm-8"> ' + obj.Name + '</label></div>';
