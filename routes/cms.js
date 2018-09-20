@@ -268,7 +268,9 @@ router.get('/getMemberByGroup', (req, res) => {
     var options = {};
     var pipeline = [];
     if (code == "day") {
-        pipeline = [{
+        pipeline = [
+            { $match: { Type: "Candidates" } },
+            {
             "$group": {
                 _id: {
                     date: { $dateToString: { format: "%Y-%m-%d", date: "$InsertDate" } }
