@@ -18,23 +18,6 @@ function getData(){
 		var objBlockStatusUser;
 		$.ajax({
 		dataType: "json",
-		url: "/cms/getMemberByGroup?code=day",
-		data: objBlockStatus,
-		success: function(data) {
-				objBlockStatus=	data;
-				drawBlockStatus(objBlockStatus);
-			 },
-		  	error: function(err) {
-                    if (err.responseText == 'Unauthorized') {
-                        {
-                            alert("Bạn đã bị time out");
-                            window.location.href = '/cms';
-                        }
-                    }
-			}            
-		});
-		$.ajax({
-		dataType: "json",
 		url: "/cms/getUserByGroup?code=day",
 		data: objBlockStatusUser,
 		success: function(data) {
@@ -50,6 +33,24 @@ function getData(){
                     }
 			}            
 		});
+		$.ajax({
+		dataType: "json",
+		url: "/cms/getMemberByGroup?code=day",
+		data: objBlockStatus,
+		success: function(data) {
+				objBlockStatus=	data;
+				drawBlockStatus(objBlockStatus);
+			 },
+		  	error: function(err) {
+                    if (err.responseText == 'Unauthorized') {
+                        {
+                            alert("Bạn đã bị time out");
+                            window.location.href = '/cms';
+                        }
+                    }
+			}            
+		});
+		
 	}else
 	{
 	  /////setTimeout(getGeoProvincial,5000);
