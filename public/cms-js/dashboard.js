@@ -28,8 +28,7 @@ function getData(){
 		  	error: function(err) {
                     if (err.responseText == 'Unauthorized') {
                         {
-                            alert("Bạn đã bị time out");
-                            window.location.href = '/cms';
+                            
                         }
                     }
 			}            
@@ -58,7 +57,7 @@ function getData1(){
 		  	error: function(err) {
                     if (err.responseText == 'Unauthorized') {
                         {
-                            alert("Bạn đã bị time out");
+                            alert("Hết phiên làm việc");
                             window.location.href = '/cms';
                         }
                     }
@@ -108,12 +107,10 @@ function drawBlockStatusUser(objBlockStatusUser) {
     dataProduct.addColumn('number', 'Tổng');
     var len = objBlockStatusUser.length;
     var total_current = 0;
-	alert("Hi 1");
     for (var i = 0; i < len; ++i) {
         total_current = total_current + objBlockStatusUser[i].Total;
         dataProduct.addRow([objBlockStatusUser[i].Date, objBlockStatusUser[i].Total, total_current]);
     }
-	alert("Hi 2");
     var options = {
         chart: {
             title: 'Thống kê',
@@ -123,11 +120,8 @@ function drawBlockStatusUser(objBlockStatusUser) {
         //bars: 'horizontal' // Required for Material Bar Charts.,
         
     };
-    alert("Hi 3");
     var chart = new google.charts.Bar(document.getElementById('dvBlockStatusUser'));
-alert("Hi 4");
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
-	alert("Hi ^^");
 isComplate1=true;
 };
 
