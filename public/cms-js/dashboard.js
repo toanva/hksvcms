@@ -100,18 +100,20 @@ function drawBlockStatus(objBlockStatus) {
 isComplate=true;
 };
 
-function drawBlockStatusUser(objBlockStatus) {
+function drawBlockStatusUser(objBlockStatusUser) {
 	
     var dataProduct = new google.visualization.DataTable();
     dataProduct.addColumn('string', 'Ngày');
     dataProduct.addColumn('number', 'Số lượng');
     dataProduct.addColumn('number', 'Tổng');
-    var len = objBlockStatus.length;
+    var len = objBlockStatusUser.length;
     var total_current = 0;
+	alert("Hi 1");
     for (var i = 0; i < len; ++i) {
-        total_current = total_current + objBlockStatus[i].Total;
-        dataProduct.addRow([objBlockStatus[i].Date, objBlockStatus[i].Total, total_current]);
+        total_current = total_current + objBlockStatusUser[i].Total;
+        dataProduct.addRow([objBlockStatusUser[i].Date, objBlockStatusUser[i].Total, total_current]);
     }
+	alert("Hi 2");
     var options = {
         chart: {
             title: 'Thống kê',
@@ -121,9 +123,9 @@ function drawBlockStatusUser(objBlockStatus) {
         //bars: 'horizontal' // Required for Material Bar Charts.,
         
     };
-
+    alert("Hi 3");
     var chart = new google.charts.Bar(document.getElementById('dvBlockStatusUser'));
-
+alert("Hi 4");
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
 	alert("Hi ^^");
 isComplate1=true;
