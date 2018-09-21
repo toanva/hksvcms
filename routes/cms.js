@@ -297,4 +297,43 @@ router.get('/getMemberByGroup', (req, res) => {
         });
     });
 });
+
+router.get('/getUserByGroup', (req, res) => {
+    if (req.session == null || req.session.admin == null) {
+        return res.sendStatus(401);
+    }
+    var code = req.query.code;
+    var options = {};
+    var pipeline = [];
+    if (code == "day") {
+        pipeline = [
+            { $match: { Type: {$nin: ["Candidates"]} } },
+            {
+            "$group": {
+                _id: {
+                    date: { $dateToString: { format: "%Y-%m-%d", date: "$InsertDate" } }
+                },
+                count: { $sum: 1 }
+            }
+        }, {
+            "$sort": {
+                "_id.date": 1
+            }
+        }, {
+            "$project": {
+                "_id": 0,
+                "Date": "$_id.date",
+                "Total": "$count"
+            }
+        }];
+    }
+    console.log("getUserByGroup", code);
+    objDb.getConnection(function (client) {
+        objDb.findMembersByGroup(pipeline, options, client, function (results) {
+            client.close();
+            res.send(results);
+        });
+    });
+});
+
 module.exports = router;
