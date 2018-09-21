@@ -307,7 +307,6 @@ router.get('/getUserByGroup', (req, res) => {
     var pipeline = [];
     if (code == "day") {
         pipeline = [
-            { $match: { Type: {$nin: ["Candidates"]} } },
             {
             "$group": {
                 _id: {
