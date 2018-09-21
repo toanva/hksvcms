@@ -3,6 +3,8 @@ var piechartBlockStatus;
 var piechartGeoCode;
 var piechartPosition;
 var isComplate=true;
+var isComplate1=true;
+var isComplate2=true;
 function onInit(){
 
  getData();
@@ -13,6 +15,8 @@ function getData(){
 	if(isComplate)
 	{
 		isComplate=false;
+		isComplate1=false;
+		isComplate2=false;
 		
 		var objBlockStatus;
 		var objBlockStatusUser;
@@ -82,8 +86,10 @@ function drawBlockStatus(objBlockStatus) {
     var chart = new google.charts.Bar(document.getElementById('dvBlockStatus'));
 
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
+    	
+isComplate1=true;
+if (isComplate2) isComplate=true;
 	
-isComplate=true;	
 };
 
 function drawBlockStatusUser(objBlockStatus) {
@@ -112,7 +118,8 @@ function drawBlockStatusUser(objBlockStatus) {
 
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
 	
-isComplate=true;	
+isComplate2=true;
+	if (isComplate1) isComplate=true;
 };
 
 
