@@ -2,12 +2,12 @@ google.charts.setOnLoadCallback(onInit);
 var piechartBlockStatus;
 var piechartGeoCode;
 var piechartPosition;
-var isComplate=true;
 var isComplate1=true;
-var isComplate2=true;
+var isComplate=true;
 function onInit(){
 
  getData();
+	getData1();
 	
 };
 
@@ -15,18 +15,15 @@ function getData(){
 	if(isComplate)
 	{
 		isComplate=false;
-		isComplate1=false;
-		isComplate2=false;
 		
 		var objBlockStatus;
-		var objBlockStatusUser;
 		$.ajax({
 		dataType: "json",
-		url: "/cms/getUserByGroup?code=day",
-		data: objBlockStatusUser,
+		url: "/cms/getMemberByGroup?code=day",
+		data: objBlockStatus,
 		success: function(data) {
-				objBlockStatusUser =	data;
-				drawBlockStatusUser(objBlockStatusUser);
+				objBlockStatus =	data;
+				drawBlockStatus(objBlockStatus);
 			 },
 		  	error: function(err) {
                     if (err.responseText == 'Unauthorized') {
@@ -37,13 +34,26 @@ function getData(){
                     }
 			}            
 		});
+		
+	}else
+	{
+	  /////setTimeout(getGeoProvincial,5000);
+	}
+};
+
+function getData1(){
+	if(isComplate1)
+	{
+		isComplate1=false;
+		
+		var objBlockStatusUser;
 		$.ajax({
 		dataType: "json",
-		url: "/cms/getMemberByGroup?code=day",
-		data: objBlockStatus,
+		url: "/cms/getUserByGroup?code=day",
+		data: objBlockStatusUser,
 		success: function(data) {
-				objBlockStatus=	data;
-				drawBlockStatus(objBlockStatus);
+				objBlockStatusUser =	data;
+				drawBlockStatusUser(objBlockStatusUser);
 			 },
 		  	error: function(err) {
                     if (err.responseText == 'Unauthorized') {
@@ -87,9 +97,7 @@ function drawBlockStatus(objBlockStatus) {
 
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
     	
-isComplate1=true;
-if (isComplate2) isComplate=true;
-	
+isComplate=true;
 };
 
 function drawBlockStatusUser(objBlockStatus) {
@@ -117,9 +125,8 @@ function drawBlockStatusUser(objBlockStatus) {
     var chart = new google.charts.Bar(document.getElementById('dvBlockStatusUser'));
 
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
-	
-isComplate2=true;
-	if (isComplate1) isComplate=true;
+	alert("Hi ^^");
+isComplate1=true;
 };
 
 
