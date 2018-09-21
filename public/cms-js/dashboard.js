@@ -14,7 +14,8 @@ function getData(){
 	{
 		isComplate=false;
 		
-		var objBlockStatus;		
+		var objBlockStatus;
+		var objBlockStatusUser;
 		$.ajax({
 		dataType: "json",
 		url: "/cms/getMemberByGroup?code=day",
@@ -22,6 +23,23 @@ function getData(){
 		success: function(data) {
 				objBlockStatus=	data;
 				drawBlockStatus(objBlockStatus);
+			 },
+		  	error: function(err) {
+                    if (err.responseText == 'Unauthorized') {
+                        {
+                            alert("Bạn đã bị time out");
+                            window.location.href = '/cms';
+                        }
+                    }
+			}            
+		});
+		$.ajax({
+		dataType: "json",
+		url: "/cms/getUserByGroup?code=day",
+		data: objBlockStatusUser,
+		success: function(data) {
+				objBlockStatusUser =	data;
+				drawBlockStatusUser(objBlockStatusUser);
 			 },
 		  	error: function(err) {
                     if (err.responseText == 'Unauthorized') {
@@ -61,6 +79,35 @@ function drawBlockStatus(objBlockStatus) {
     };
 
     var chart = new google.charts.Bar(document.getElementById('dvBlockStatus'));
+
+    chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
+	
+isComplate=true;	
+};
+
+function drawBlockStatusUser(objBlockStatus) {
+	
+    var dataProduct = new google.visualization.DataTable();
+    dataProduct.addColumn('string', 'Ngày');
+    dataProduct.addColumn('number', 'Số lượng');
+    dataProduct.addColumn('number', 'Tổng');
+    var len = objBlockStatus.length;
+    var total_current = 0;
+    for (var i = 0; i < len; ++i) {
+        total_current = total_current + objBlockStatus[i].Total;
+        dataProduct.addRow([objBlockStatus[i].Date, objBlockStatus[i].Total, total_current]);
+    }
+    var options = {
+        chart: {
+            title: 'Thống kê',
+            subtitle: 'Ngày, Số lượng người dùng mới',
+        },
+        dataOpacity: 5
+        //bars: 'horizontal' // Required for Material Bar Charts.,
+        
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('dvBlockStatusUser'));
 
     chart.draw(dataProduct, google.charts.Bar.convertOptions(options));
 	
