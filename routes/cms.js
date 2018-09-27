@@ -21,6 +21,12 @@ router.get('/member', function (req, res, next) {
     });
 });
 
+router.get('/sendmessage', function (req, res, next) {
+    res.sendFile('sendmessage.html', {
+        root: "views/cms"
+    });
+});
+
 router.get('/chart', function (req, res, next) {
     res.sendFile('chart.html', {
         root: "views/cms"
@@ -133,6 +139,95 @@ router.get('/getMemberCMS', (req, res) => {
     });
 });
 //Toanva getMemberCMS end
+//Toanva add getMemberSendMessage
+router.get('/getMemberSendMessage', (req, res) => {
+    if (req.session == null || req.session.admin == null) {
+        return res.sendStatus(401);
+    }
+    var name = req.query.name;
+    var psid = req.query.psid;
+    var type = req.query.type;
+    var phone = req.query.phone;
+    var schools = req.query.schools;
+    var placeofcontest = req.query.placeofcontest;
+    if (psid == null || psid == 'all')
+        psid = "";
+    if (name == null || name == 'all')
+        name = "";
+    if (phone == null || phone == 'all')
+        phone = "";
+    if (type == null || type == 'all')
+        type = "";
+    if (schools == null || schools == 'all')
+        schools = "";
+    if (placeofcontest == null || placeofcontest == 'all')
+        placeofcontest = "";
+    
+    var query = {};
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (psid != "") {
+        Object.assign(query, {
+            _id: psid
+        });
+    }
+    
+    if (phone != "") {
+        phone = ".*" + phone + ".*";
+        Object.assign(query, {
+            Phone: {
+                $regex: phone
+            }
+        });
+    }
+
+    if (placeofcontest != "") {
+        placeofcontest = ".*" + placeofcontest + ".*";
+        Object.assign(query, {
+            PlaceOfContest: {
+                $regex: placeofcontest
+            }
+        });
+    }
+
+    if (schools != "") {
+        schools = ".*" + schools + ".*";
+        Object.assign(query, {
+            Schools: {
+                $regex: schools
+            }
+        });
+    }
+
+    if (type != "") {
+        Object.assign(query, {
+            Type: type
+        });
+    }
+    
+    console.log("GetMemberCMS query", query);
+    objDb.getConnection(function (client) {
+        objDb.findMembers(query, client, function (results) {
+            client.close();
+            res.send(results);
+        });
+    });
+});
+//Toanva getMemberSendMessage end
 router.get('/getListMemberKsv', (req, res) => {
 
     var psid = req.query.psid;
@@ -335,4 +430,229 @@ router.get('/getUserByGroup', (req, res) => {
     });
 });
 
+router.get('/sendmessagetouser', function (req, res) {
+    sendMessFinishFlowDetail().then(() => {
+        res.send("SS");
+    });
+});
+router.get('/getMemberSendMessage', (req, res) => {
+    if (req.session == null || req.session.admin == null) {
+        return res.sendStatus(401);
+    }
+    var name = req.query.name;
+    var psid = req.query.psid;
+    var type = req.query.type;
+    var phone = req.query.phone;
+    var schools = req.query.schools;
+    var placeofcontest = req.query.placeofcontest;
+    if (psid == null || psid == 'all')
+        psid = "";
+    if (name == null || name == 'all')
+        name = "";
+    if (phone == null || phone == 'all')
+        phone = "";
+    if (type == null || type == 'all')
+        type = "";
+    if (schools == null || schools == 'all')
+        schools = "";
+    if (placeofcontest == null || placeofcontest == 'all')
+        placeofcontest = "";
+
+    var query = {};
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (psid != "") {
+        Object.assign(query, {
+            _id: psid
+        });
+    }
+
+    if (phone != "") {
+        phone = ".*" + phone + ".*";
+        Object.assign(query, {
+            Phone: {
+                $regex: phone
+            }
+        });
+    }
+
+    if (placeofcontest != "") {
+        placeofcontest = ".*" + placeofcontest + ".*";
+        Object.assign(query, {
+            PlaceOfContest: {
+                $regex: placeofcontest
+            }
+        });
+    }
+
+    if (schools != "") {
+        schools = ".*" + schools + ".*";
+        Object.assign(query, {
+            Schools: {
+                $regex: schools
+            }
+        });
+    }
+
+    if (type != "") {
+        Object.assign(query, {
+            Type: type
+        });
+    }
+
+    console.log("GetMemberCMS query", query);
+    objDb.getConnection(function (client) {
+        objDb.findMembers(query, client, function (results) {
+            client.close();
+            res.send(results);
+        });
+    });
+});
+function sendMessFinishFlowDetail(senderID) {
+
+    var msg = req.query.message;
+    var qk = {
+        quick_replies: [{
+            content_type: 'text',
+            title: 'Quay về menu',
+            payload: 'menu',
+            ///image_url: SERVER_URL + "/images/miss.png"
+        },]
+    };
+    var arr = [];
+    //arr.push(MessengerBatch.sendText("1629682707133274", msg,qk));
+    //arr.push(MessengerBatch.sendText("1977422088947151", msg,qk));
+    //client.sendBatch(arr);
+    ///arr.push(MessengerBatch.sendText("1799871290067009", msg,qk));
+    var name = req.query.name;
+    var psid = req.query.psid;
+    var type = req.query.type;
+    var phone = req.query.phone;
+    var schools = req.query.schools;
+    var placeofcontest = req.query.placeofcontest;
+    if (psid == null || psid == 'all')
+        psid = "";
+    if (name == null || name == 'all')
+        name = "";
+    if (phone == null || phone == 'all')
+        phone = "";
+    if (type == null || type == 'all')
+        type = "";
+    if (schools == null || schools == 'all')
+        schools = "";
+    if (placeofcontest == null || placeofcontest == 'all')
+        placeofcontest = "";
+
+    var query = {};
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    if (psid != "") {
+        Object.assign(query, {
+            _id: psid
+        });
+    }
+
+    if (phone != "") {
+        phone = ".*" + phone + ".*";
+        Object.assign(query, {
+            Phone: {
+                $regex: phone
+            }
+        });
+    }
+
+    if (placeofcontest != "") {
+        placeofcontest = ".*" + placeofcontest + ".*";
+        Object.assign(query, {
+            PlaceOfContest: {
+                $regex: placeofcontest
+            }
+        });
+    }
+
+    if (schools != "") {
+        schools = ".*" + schools + ".*";
+        Object.assign(query, {
+            Schools: {
+                $regex: schools
+            }
+        });
+    }
+
+    if (type != "") {
+        Object.assign(query, {
+            Type: type
+        });
+    }
+    
+    console.log("Send member: ", arr);
+    objDb.getConnection(function (clientDB) {
+        objDb.findMembers(query, clientDB, function (results) {
+            clientDB.close();
+            console.log("Total member: ", results.length);
+            var j = 0;
+            for (var i = 0; i < results.length; i++) {
+
+                console.log("add member: ", results[i]._id);
+                var id = results[i]._id.toString();
+
+                //arr.push(MessengerBatch.sendText("1977422088947151", msg,qk));
+                //			startMiniGame02(id,'8888');
+                arr.push(MessengerBatch.sendText(id, msg, qk));
+                if (j == 48) {
+                    j = 0;
+                    client.sendBatch(arr);
+                    console.log("Send member: ", arr.length);
+                    arr = [];
+                } else if ((results.length - i) < 48) {
+                    j = 0;
+                    client.sendBatch(arr);
+                    arr = [];
+                    console.log("Total Send member: ", i);
+                }
+                j++;
+            }
+            //client.sendBatch(arr);
+            //console.log("Send member: ", arr);
+            //res.send(results);
+        });
+    });
+
+    //sendMessFinishFlowDetail("1629682707133274");
+    //sendMessFinishFlowDetail("1977422088947151");
+    //sendMessFinishFlowDetail("1799871290067009");
+
+    ///lient.sendText(senderID, '', );
+    //var arr=[ MessengerBatch.sendText("1629682707133274", msg,qk), MessengerBatch.sendText("1977422088947151", msg,qk),MessengerBatch.sendText("1799871290067009", msg,qk)];
+
+
+};
 module.exports = router;
