@@ -501,7 +501,6 @@ router.post('/sendMessageToMember', function (req, res) {
             _id: psid
         });
     }
-
     if (phone != "") {
         phone = ".*" + phone + ".*";
         Object.assign(query, {
@@ -510,7 +509,6 @@ router.post('/sendMessageToMember', function (req, res) {
             }
         });
     }
-
     if (placeofcontest != "") {
         placeofcontest = ".*" + placeofcontest + ".*";
         Object.assign(query, {
@@ -519,7 +517,6 @@ router.post('/sendMessageToMember', function (req, res) {
             }
         });
     }
-
     if (schools != "") {
         schools = ".*" + schools + ".*";
         Object.assign(query, {
@@ -540,33 +537,36 @@ router.post('/sendMessageToMember', function (req, res) {
         objDb.findMembers(query, clientDB, function (results) {
             clientDB.close();
             console.log("Total member: ", results.length);
-            //1807839409264674 psid toanva
-	    //client.sendText("1807839409264674", 'Hello!');
-            arr.push(MessengerBatch.sendText("2066859706671769", msg, qk));
-            client.sendBatch(arr);
-            console.log("Send member: ", arr);
-            console.log("Send member: ", arr.length);
+            //2066859706671769 psid toanva
+            //Test messae
+            //MessengerBatch.sendText("2066859706671769", msg, qk);
+            //Test messae
+            //arr.push(MessengerBatch.sendText("2066859706671769", msg, qk));
+            //client.sendBatch(arr);
+            //console.log("Send member: ", arr);
+            //console.log("Send member: ", arr.length);
+            
+            var j = 0;
+            for (var i = 0; i < results.length; i++) {
+
+                console.log("add member: ", results[i]._id);
+                var id = results[i]._id.toString();
+
+                arr.push(MessengerBatch.sendText(id, msg, qk));
+                if (j == 7) {
+                    client.sendBatch(arr);
+                    console.log("Send member: ", arr.length);
+                    j = 0;
+                    arr = [];
+                } else if ((results.length - 1) < 7 && j == (results.length - 1)) {
+                    client.sendBatch(arr);
+                    console.log("Total Send member: ", results.length);
+                    j = 0;
+                    arr = [];
+                }
+                j++;
+            }
             res.json({ success: "true", message: 'Gửi tin nhắn thành công' });
-            //var j = 0;
-            //for (var i = 0; i < results.length; i++) {
-
-            //    console.log("add member: ", results[i]._id);
-            //    var id = results[i]._id.toString();
-
-            //    arr.push(MessengerBatch.sendText(id, msg, qk));
-            //    if (j == 48) {
-            //        j = 0;
-            //        client.sendBatch(arr);
-            //        console.log("Send member: ", arr.length);
-            //        arr = [];
-            //    } else if ((results.length - i) < 48) {
-            //        j = 0;
-            //        client.sendBatch(arr);
-            //        arr = [];
-            //        console.log("Total Send member: ", i);
-            //    }
-            //    j++;
-            //}
         });
     });
 });
@@ -652,6 +652,64 @@ router.get('/getMemberSendMessage', (req, res) => {
     console.log("GetMemberCMS query", query);
     objDb.getConnection(function (client) {
         objDb.findMembers(query, client, function (results) {
+            client.close();
+            res.send(results);
+        });
+    });
+});
+
+router.get('/getRedeemGifts', (req, res) => {
+    if (req.session == null || req.session.admin == null) {
+        return res.sendStatus(401);
+    }
+    var name = req.query.name;
+    var psid = req.query.psid;
+    var status = req.query.status;
+    var value = req.query.value;
+    
+    if (psid == null || psid == 'all')
+        psid = "";
+    if (name == null || name == 'all')
+        name = "";
+    if (status == null || status == 'all')
+        status = "";
+    if (value == null || value == 'all')
+        value = "";
+    
+    var query = {};
+    if (name != "") {
+        name = ".*" + name + ".*";
+        Object.assign(query, {
+            Name: {
+                $regex: name
+            }
+        });
+    }
+    
+    if (psid != "") {
+        Object.assign(query, {
+            _id: psid
+        });
+    }
+
+    if (value != "") {
+        phone = ".*" + value + ".*";
+        Object.assign(query, {
+            Value: {
+                $regex: value
+            }
+        });
+    }
+
+    if (status != "") {
+        Object.assign(status, {
+            Status: status
+        });
+    }
+
+    console.log("getRedeemGifts query", query);
+    objDb.getConnection(function (client) {
+        objDb.findRedeemGifts(query, client, function (results) {
             client.close();
             res.send(results);
         });
