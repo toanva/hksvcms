@@ -1,5 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
+var config = require('config');
 const {
 	MessengerClient
 } = require('messaging-api-messenger');
@@ -8,9 +9,9 @@ const {
 } = require('messaging-api-messenger');
 var Cryptojs = require("crypto-js");//Toanva add
 
-const PAGE_ACCESS_TOKEN = process.env.MESSENGER_PAGE_ACCESS_TOKEN;
-//	(process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
-///	config.get('pageAccessToken');
+const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
+	(process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
+	config.get('pageAccessToken');
 const client = MessengerClient.connect({
     accessToken: PAGE_ACCESS_TOKEN,
     version: '3.1',
