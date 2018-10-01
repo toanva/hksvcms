@@ -56,6 +56,23 @@ module.exports = {
             }
         });
     },
+    findRedeemGifts: function (query, client, callback) {
+        // Get the documents collection
+        const db = client.db(DATA_BASE_NAME);
+        collection = db.collection('RedeemGifts');
+        // Find some documents
+        collection.find(query).sort({
+            "InsertDate": 1
+        }).toArray(function (err, results) {
+            //    assert.equal(err, null);
+            if (err) {
+                console.log("err:", err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+        });
+    },
 	findKycMembers: function (query, client, callback) {
 		// Get the documents collection
 		const db = client.db(DATA_BASE_NAME);
