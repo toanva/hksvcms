@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../css/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../css/buttons.bootstrap.min.css" />
-    <title>CMS-Member</title>
+    <title>CMS-Gifts</title>
 </head>
 <body class="cm-no-transition cm-1-navbar">
     <div id="cm-menu">
@@ -29,6 +29,7 @@
                         <!--<li><a href="ai.html" class="sf-cogs">Cấu hình AI</a></li>-->
                         <li class="active"><a href="/cms/member" class="sf-profile-group">Thí sinh</a></li>
                         <li><a href="/cms/sendmessage" class="sf-box-out">Gửi tin</a></li>
+                        <li><a href="/cms/redeemgift" class="sf-box-out">Đổi thưởng</a></li>
                         <!--<li><a href="mess.html" class="sf-box-out">Gửi tin</a></li>
                         <li><a href="product.html" class="sf-shop">Sản phẩm</a></li>
                         <li><a href="map.html" class="sf-map">Bản đồ</a></li>
@@ -44,7 +45,7 @@
         <nav class="cm-navbar cm-navbar-primary">
             <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
             <div class="cm-flex">
-                <h1>Quản lý thí sinh</h1>
+                <h1>Quản lý đổi thưởng</h1>
             </div>
         </nav>
     </header>
@@ -53,17 +54,27 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Tìm kiếm thí sinh</div>
+                        <div class="panel-heading">Tìm kiếm </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Họ và tên..." />
+                                        <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Họ và tên" />
                                     </div>
                                 </div>
-                                <!--<div class="col-md-2">
+                                <!--<div class="col-md-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="txtPhone" name="txtPhone" placeholder="Điện thoại..." />
+                                        <select id="cboType" name="cboType" class="form-control">
+                                            <option value="0">Chọn loại thành viên</option>
+                                            <option value="Candidates">Thí sinh</option>
+                                            <option value="GAME">Chơi game</option>
+                                            <option value="NA">Khác</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="txtValue" name="txtValue" placeholder="Điểm" />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -74,10 +85,22 @@
                                             <option value="PENDING">Chưa duyệt</option>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--<div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" id="FromDate" name="FromDate" placeholder="Từ ngày" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" id="ToDate" name="ToDate" placeholder="Đến ngày" />
+                                    </div>
                                 </div>-->
                                 <div class="col-md-3">
                                     <div class="form-group text-align-bottom">
-                                        <button type="button" class="btn btn-primary" onclick="SearchMember()">Tìm kiếm</button>
+                                        <button type="button" class="btn btn-primary" onclick="Search()">Tìm kiếm</button>
                                     </div>
                                 </div>
                             </div>
@@ -88,19 +111,19 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Danh sách thí sinh</div>
                         <div class="panel-body">
-                            <table id="grvResult" class="table table-striped table-bordered" style="width: 100%" data-page-length="10" data-order="[[ 9, &quot;asc&quot; ]]">
+                            <table id="grvResult" class="table table-striped table-bordered" style="width: 100%" data-page-length="10" data-order="[[ 5, &quot;asc&quot; ]]">
                                 <thead>
                                     <tr>
                                         <th>Họ và tên</th>
                                         <th>Số báo danh</th>
-                                        <th>Ảnh chân dung</th>
-                                        <th>Ảnh toàn thân</th>
+                                        <!--<th>Ảnh chân dung</th>
+                                        <th>Ảnh toàn thân</th>-->
                                         <th>Số điện thoại</th>
                                         <th>Tên trường học</th>
                                         <!--<th>Hạng mục</th>-->
                                         <th>Địa điểm sơ khảo</th>
-                                        <th>Link ảnh đại diện</th>
-                                        <th>Link ảnh toàn thân</th>
+                                        <!--<th>Link ảnh đại diện</th>
+                                        <th>Link ảnh toàn thân</th>-->
                                         <th>Ngày</th>
                                         <th>Ngày đăng ký</th>
                                         <!--<th>Quốc tịch</th>
@@ -125,75 +148,6 @@
                 </div>
             </div>
         </div>
-        <div id="myModal" class="modal fade modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width:50%">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <div class="row">
-                            <ul id="myTab" class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Thông tin cá nhân</a></li>
-                                <li role="presentation" class=""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Hội viên chờ duyệt</a></li>
-                            </ul>
-                            <br>
-                            <div id="myTabContent" class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
-                                    <table id="grvInfo" class="table table-bordered" style="width: 100%;font-size:12px!important" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <td class="col-sm-3" style="text-align:center;vertical-align:middle" rowspan="8">
-                                                    <img id="info_img" src="../img/logo.jpg" class="img-responsive" />
-                                                    <input type="hidden" id="id_info" value="0">
-                                                </td>
-                                                <td class="col-sm-9">
-                                                    <label class="col-sm-3 text-right margin0">Họ và tên:</label><label class="margin0" id="info_name"></label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Cấp cán bộ:</label><label class="margin0" id="info_level"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Chức vụ:</label><label class="margin0" id="info_position"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Ngày sinh:</label><label class="margin0" id="info_birthday"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Điện thoại:</label><label class="margin0" id="info_phone"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Email:</label><label class="margin0" id="info_email"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Địa chỉ:</label><label class="margin0" id="info_address"></label></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="col-sm-9"><label class="col-sm-3 text-right margin0">Trạng thái:</label><label class="margin0" id="info_status"></label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-                                    <div class="table-responsive">
-                                        <table id="grvInfoPending" class="table table-bordered" style="width: 100%;font-size:12px!important" data-page-length="10">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 25%;">Ảnh</th>
-                                                    <th style="width: 75%;">Thông tin</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
         <footer class="cm-footer"><span class="pull-right">&copy; NSVN KYC.NET.VN Inc.</span></footer>
     </div>
     <script src="../js/jquery-3.3.1.min.js"></script>
@@ -214,7 +168,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/clearmin.min.js"></script>
     <script src="../js/toanva.js"></script>
-    <script src="../cms-js/member.js"></script>
+    <script src="../cms-js/sendmessage.js"></script>
     <script src="../cms-js/logout.js?v=1.0.0.0"></script>
 </body>
 </html>
