@@ -542,7 +542,7 @@ router.post('/sendMessageToMember', function (req, res) {
             console.log("Total member: ", results.length);
             //1807839409264674 psid toanva
 	    //client.sendText("1807839409264674", 'Hello!');
-            arr.push(MessengerBatch.sendText("2214823595255485", msg, qk));
+            arr.push(MessengerBatch.sendText("1977422088947151", msg, qk));
             client.sendBatch(arr);
             console.log("Send member: ", arr);
             console.log("Send member: ", arr.length);
