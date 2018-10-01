@@ -541,8 +541,9 @@ router.post('/sendMessageToMember', function (req, res) {
             clientDB.close();
             console.log("Total member: ", results.length);
             //1807839409264674 psid toanva
-            arr.push(MessengerBatch.sendText("1807839409264674", msg, qk));
-            client.sendBatch(arr);
+	    client.sendText("1807839409264674", 'Hello!');
+            //arr.push(MessengerBatch.sendText("1807839409264674", msg, qk));
+            //client.sendBatch(arr);
             console.log("Send member: ", arr);
             console.log("Send member: ", arr.length);
             res.json({ success: "true", message: 'Gửi tin nhắn thành công' });
