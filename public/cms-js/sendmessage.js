@@ -112,6 +112,43 @@ function SearchMember() {
     datatable.draw();
 };
 
+function SendMessage() {
+    var data_query = {};
+    var message= "";
+    var name = "";
+    var type = "";
+    var phone = "";
+    var schools = "";
+    var placeofcontest = "";
+    if ($('#txtName').val() != "" && $('#txtName').val() != undefined) name = $("#txtName").val();
+    if (document.getElementById("cboType").selectedIndex != 0) type = document.getElementById("cboType").value;
+    if ($('#txtPhone').val() != "" && $('#txtPhone').val() != undefined) phone = $("#txtPhone").val();
+    if ($('#txtSchools').val() != "" && $('#txtSchools').val() != undefined) schools = $("#txtSchools").val();
+    if ($('#txtPlaceOfContest').val() != "" && $('#txtPlaceOfContest').val() != undefined) placeofcontest = $("#txtPlaceOfContest").val();
+    if ($('#txtMessage').val() != "" && $('#txtMessage').val() != undefined) message = $("#txtMessage").val();
+    data_query.message = message;
+    data_query.name = name;
+    data_query.type = type;
+    data_query.phone = phone;
+    data_query.schools = schools;
+    data_query.placeofcontest = placeofcontest;
+    data_query.psid = "";
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: "/cms/sendMessageToMember",
+        data: JSON.stringify(data_query),
+        success: function (data) {
+            if (data.success == "true") {
+                alert("Gửi tin nhắn thành công");
+            }
+            else {
+                alert(data.message);
+            }
+        }
+    });
+};
+
 function ShowDetail(id) {
     tableInfoPending.clear();
     tableInfoPending.draw();
