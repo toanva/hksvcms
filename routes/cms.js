@@ -48,6 +48,12 @@ router.get('/chart', function (req, res, next) {
     });
 });
 
+router.get('/gift', function (req, res, next) {
+    res.sendFile('redeemgift.html', {
+        root: "views/cms"
+    });
+});
+
 //Toanva add getkeyCMS
 router.post('/getkeyCMS', function (req, res) {
     let body = req.body;
@@ -449,7 +455,7 @@ router.post('/sendMessageToMember', function (req, res) {
     let body = req.body;
 
     var msg = body.message;
-    console.log("PAGE_ACCESS_TOKEN: ", PAGE_ACCESS_TOKEN);
+    //console.log("PAGE_ACCESS_TOKEN: ", PAGE_ACCESS_TOKEN);
     console.log("Send message text: ", msg); 
     var qk = {
         quick_replies: [{
@@ -693,16 +699,13 @@ router.get('/getRedeemGifts', (req, res) => {
     }
 
     if (value != "") {
-        phone = ".*" + value + ".*";
         Object.assign(query, {
-            Value: {
-                $regex: value
-            }
+            PointValue: Number(value)
         });
     }
 
     if (status != "") {
-        Object.assign(status, {
+        Object.assign(query, {
             Status: status
         });
     }
@@ -716,4 +719,25 @@ router.get('/getRedeemGifts', (req, res) => {
     });
 });
 
+router.post('/updateStatusGift', function (req, res) {
+    let body = req.body;
+    var giftcode = body.GiftCode;
+    
+    objDb.getConnection(function (client) {
+        console.log("GiftCode: ", giftcode);
+        //Update
+        objDb.updateStatusGift(giftcode, client, function (err, results) {
+            if (err) {
+                console.log("Update Status Gift Error ", err);
+                res.json({ success: "false", message: err });
+            } else {
+                res.json({ success: "true", message: "Duyệt thành công" });
+                console.log("Update Status Gift Success");
+            }
+            console.log("editUser: Close Connction")
+            client.close();
+        });
+        
+    });
+});
 module.exports = router;
