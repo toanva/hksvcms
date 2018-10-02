@@ -29,7 +29,7 @@
                         <!--<li><a href="ai.html" class="sf-cogs">Cấu hình AI</a></li>-->
                         <li class="active"><a href="/cms/member" class="sf-profile-group">Thí sinh</a></li>
                         <li><a href="/cms/sendmessage" class="sf-box-out">Gửi tin</a></li>
-                        <li><a href="/cms/redeemgift" class="sf-box-out">Đổi thưởng</a></li>
+                        <li><a href="/cms/gift" class="sf-shop">Đổi thưởng</a></li>
                         <!--<li><a href="mess.html" class="sf-box-out">Gửi tin</a></li>
                         <li><a href="product.html" class="sf-shop">Sản phẩm</a></li>
                         <li><a href="map.html" class="sf-map">Bản đồ</a></li>
@@ -100,7 +100,7 @@
                                 </div>-->
                                 <div class="col-md-3">
                                     <div class="form-group text-align-bottom">
-                                        <button type="button" class="btn btn-primary" onclick="Search()">Tìm kiếm</button>
+                                        <button type="button" class="btn btn-primary" onclick="SearchMember()">Tìm kiếm</button>
                                     </div>
                                 </div>
                             </div>
@@ -114,32 +114,14 @@
                             <table id="grvResult" class="table table-striped table-bordered" style="width: 100%" data-page-length="10" data-order="[[ 5, &quot;asc&quot; ]]">
                                 <thead>
                                     <tr>
+                                        <th>Mã đổi thưởng</th>
                                         <th>Họ và tên</th>
-                                        <th>Số báo danh</th>
-                                        <!--<th>Ảnh chân dung</th>
-                                        <th>Ảnh toàn thân</th>-->
-                                        <th>Số điện thoại</th>
-                                        <th>Tên trường học</th>
-                                        <!--<th>Hạng mục</th>-->
-                                        <th>Địa điểm sơ khảo</th>
-                                        <!--<th>Link ảnh đại diện</th>
-                                        <th>Link ảnh toàn thân</th>-->
+                                        <th>Điểm</th>
+                                        <th>Đổi thưởng</th>
+                                        <th>Trạng thái</th>
                                         <th>Ngày</th>
                                         <th>Ngày đăng ký</th>
-                                        <!--<th>Quốc tịch</th>
-                                        <th>Ngày sinh</th>
-                                        <th>Nơi sinh</th>
-                                        <th>Số CMND</th>
-                                        <th>Ngày cấp</th>
-                                        <th>Nơi cấp</th>
-                                        <th>Địa chỉ thường trú</th>
-                                        <th>Địa chỉ liên lạc</th>
-                                        <th>SĐT cố định</th>
-                                        <th>SĐT di động</th>
-                                        <th>Email</th>
-                                        <th>Facebook</th>
-                                        <th>Nơi học tập</th>
-                                        <th>Khi cần báo tin cho ai? Ở đâu?</th>-->
+                                        <th>Duyệt</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -168,7 +150,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/clearmin.min.js"></script>
     <script src="../js/toanva.js"></script>
-    <script src="../cms-js/sendmessage.js"></script>
+    <script src="../cms-js/redeemgift.js"></script>
     <script src="../cms-js/logout.js?v=1.0.0.0"></script>
 </body>
 </html>
