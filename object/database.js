@@ -278,7 +278,43 @@ module.exports = {
 			//neu khong co loi			
 			callback(null, res);
 		});
-	},
+    },
+    updateStatusGift: function (giftcode, client, callback) {
+        // Get the Users collection
+        const db = client.db(DATA_BASE_NAME);
+        const collection = db.collection('RedeemGifts');
+        collection.find({
+            'GiftCode': giftcode
+        }).toArray(function (err, results) {
+            if (err) {
+                console.log("err:", err);
+            } else {
+                //console.log('Kiểm tra xem tồn tại hay chưa:', results.length);
+                if (results.length > 0) {
+                    console.log('RedeemGift:', giftcode);
+                    // edit Users
+                    var objUserUpdate = {
+                        $set: {
+                            "Status": "ACTIVE"
+                        }
+                    };
+                    collection.updateOne({
+                        '_id': giftcode
+                    }, objUserUpdate, function (err, res) {
+                        //neu xay ra loi
+                        if (err) throw err;
+                        //neu khong co loi			
+                        console.log("Update success");
+                        callback(null, res);
+                    });
+                } else {
+                    //đã tồn tại
+                    console.log('Update fail. Giftcode not found');
+                    callback('Mã đổi thưởng không tồn tại');
+                }
+            }
+        });
+    },
 	// Toanva process User - End
 
 }
